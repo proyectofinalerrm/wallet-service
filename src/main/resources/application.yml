@@ -1,0 +1,37 @@
+server:
+  port: 8101
+spring:
+  kafka:
+    bootstrap-servers: moped-01.srvs.cloudkafka.com:9094,moped-02.srvs.cloudkafka.com:9094,moped-03.srvs.cloudkafka.com:9094
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="mw0qp7ns" password="B3QZdEOoxokd2bX0vclUkuAGOxxygn7E";
+  redis:
+    host: localhost
+    port: 16379
+    #    username: default
+    password:
+    timeout: 5000
+  cloud:
+    function:
+      definition: updateCurrentAmountAccount
+    stream:
+      bindings:
+        wallet-transaction-out-0:
+          destination: mw0qp7ns-wallet-transaction
+        wallet-account-out-0:
+          destination: mw0qp7ns-wallet-account
+        wallet-debitCardAsociated-out-0:
+          destination: mw0qp7ns-wallet-debiCardAsociated           
+        updateCurrentAmountAccount-in-0:
+          destination: mw0qp7ns-account-currentAmount  
+          
+          
+          
+  data:
+    mongodb:
+      uri: mongodb+srv://erick:erickpinglo@cluster0.xdfgh.mongodb.net/bank
